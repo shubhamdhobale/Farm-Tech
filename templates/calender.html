@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crop Planner</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      
+    }
+
+    form{
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin: 12px 0 5px;
+      color: #555;
+      font-weight: 600;
+    }
+
+    input[type="text"], select {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #66bb6a;
+      outline: none;
+    }
+
+    button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #388e3c;
+    }
+
+    #results {
+      margin-top: 25px;
+    }
+
+    #results h4 {
+      color: #388e3c;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      background: #f1f8e9;
+      margin-bottom: 8px;
+      padding: 10px;
+      border-radius: 6px;
+      border-left: 5px solid #66bb6a;
+      font-weight: 500;
+      color: #333;
+    }
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        padding: 2rem 1rem;
+        text-align: center;
+        width: 100vw;
+      }
+      footer a {
+        color: #1abc9c;
+        text-decoration: none;
+        margin: 0 0.5rem;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+      footer a i {
+        font-size: 1.2rem;
+      }
+      nav {
+        background-color: #2c3e50;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        z-index: 10;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 1.5rem;
+        font-weight: 500;
+      }
+      nav a:hover {
+        text-decoration: underline;
+        color: #1abc9c;
+      }
+  </style>
+</head>
+<body>
+  <nav>
+      <a href="/" style="font-size: 1.5rem; font-weight: bold;">🌱 KisaanMitra</a>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="/">Home</a>
+        <a href="/analyze">Upload</a>
+        <a href="/blogs">Blogs</a>
+        <a href="/calender">Crop Calender</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  <div class="container">
+    <h2>🌱 Advanced Crop Planner</h2>
+    <form id="cropForm">
+      <label>Soil Type</label>
+      <input type="text" id="soilType" value="Loam" />
+
+      <label>Season</label>
+      <select id="season">
+        <option value="Kharif">Kharif</option>
+        <option value="Rabi">Rabi</option>
+        <option value="Zaid">Zaid</option>
+      </select>
+
+      <label>Location</label>
+      <input type="text" id="location" placeholder="e.g., Pune" required />
+
+      <button type="submit">Get Suggestions</button>
+    </form>
+
+    <div id="results"></div>
+  </div>
+
+  <footer id="contact">
+      <h3>Contact Us</h3>
+      <p>
+        Email:
+        <a href="mailto:support@kisaanmitra.in">support@kisaanmitra.in</a> |
+        Phone: +91 98765 43210
+      </p>
+      <p>
+        Follow us on:
+        <a href="#" aria-label="Facebook"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a href="#" aria-label="Twitter"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a href="#" aria-label="Instagram"
+          ><i class="fab fa-instagram"></i
+        ></a>
+      </p>
+      <p style="margin-top: 1rem">&copy; 2025 KisaanMitra. All rights reserved.</p>
+    </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const month = new Date().getMonth() + 1;
+      const season = (month === 12 || month <= 2) ? "Rabi" :
+                     (month >= 6 && month <= 9) ? "Kharif" : "Zaid";
+      document.getElementById("season").value = season;
+    });
+
+    document.getElementById("cropForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const soilType = document.getElementById("soilType").value;
+      const season = document.getElementById("season").value;
+      const location = document.getElementById("location").value;
+
+      const res = await fetch("/crop-planner", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ soilType, season, location })
+      });
+
+      const data = await res.json();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "<h4>🌾 Suggestions:</h4>";
+
+      if (data.suggestions.length === 0) {
+        resultsDiv.innerHTML += "<p>No matching crops found for the selected parameters.</p>";
+        return;
+      }
+
+      const list = document.createElement("ul");
+      data.suggestions.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.crop} – ${item.months.join(", ")}`;
+        list.appendChild(li);
+      });
+      resultsDiv.appendChild(list);
+    });
+  </script>
+</body>
+</html>

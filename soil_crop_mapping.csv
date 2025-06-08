@@ -1,0 +1,9 @@
+Soil Type,Nitrogen (N),Phosphorus (P),Potassium (K),Calcium (Ca),Magnesium (Mg),Iron (Fe),Organic Matter,Recommended Crops
+Alluvial Soil,Moderate to High,High,High,Moderate,Moderate,Moderate,High,"Rice, Wheat, Sugarcane, Jute, Maize, Pulses"
+Black Soil,Low,Low to Moderate,High,High,High,Low,Moderate,"Cotton, Sorghum, Soybean, Sunflower, Millet"
+Cinder Soil,Low,Low,High,Low to Moderate,Low,Moderate,Very Low,"Maize, Pineapple, Sorghum"
+Clay Soil,Moderate to High,Moderate,High,High,High,Moderate,High,"Rice, Wheat, Cotton, Sugarcane"
+Laterite Soil,Low,Low,Low,Low,Low,High,Low,"Tea, Coffee, Cashew Nuts, Rubber"
+Peat Soil,High,Low to Moderate,Low to Moderate,Low,Low,Moderate,Very High,"Potatoes, Carrots, Turnips, Berries"
+Red Soil,Low,Low,Low,Low to Moderate,Low,High,Low,"Millet, Groundnuts, Cotton, Pulses"
+Yellow Soil,Low,Low to Moderate,Low,Moderate,Moderate,High,Low,"Groundnuts, Pulses, Cassava, Maize"
